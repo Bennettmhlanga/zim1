@@ -1,51 +1,66 @@
+// Initialize Trusted Types policy
+let policy;
+if (window.TrustedTypes && TrustedTypes.createPolicy) {
+    policy = TrustedTypes.createPolicy("default", {
+        createScriptURL: (url) => {
+            // Perform necessary validation here
+            // For example, only allow URLs from specific trusted domains
+            if (url.startsWith("https://api.openai.com")) {
+                return url;
+            }
+            throw new Error("Invalid URL");
+        }
+    });
+}
+
 // Office Add-in entry point
 Office.onReady((info) => {
-  if (info.host === Office.HostType.Outlook) {
-    document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";
-    document.getElementById("run").onclick = run;
-  }
+    if (info.host === Office.HostType.Outlook) {
+        document.getElementById("sideload-msg").style.display = "none";
+        document.getElementById("app-body").style.display = "flex";
+        document.getElementById("run").onclick = run;
+    }
 });
 
 // Function to run when the button is clicked
 async function run() {
-  const item = Office.context.mailbox.item;
+    const item = Office.context.mailbox.item;
 
-  // Fetching the body of the email
-  item.body.getAsync("text", {coerceHtml: false}, (result) => {
-    if (result.status === Office.AsyncResultStatus.Succeeded) {
-      const bodyText = result.value; // This contains the plain text body of the email
+    // Fetching the body of the email
+    item.body.getAsync("text", { coerceHtml: false }, (result) => {
+        if (result.status === Office.AsyncResultStatus.Succeeded) {
+            const bodyText = result.value; // This contains the plain text body of the email
 
-      // Collecting additional information from the input field
-      const additionalInfo = document.getElementById("additionalInfo").value;
+            // Collecting additional information from the input field
+            const additionalInfo = document.getElementById("additionalInfo").value;
 
-      // Getting the selected role from the dropdown menu
-      const selectedRole = document.getElementById("roleSelection").value;
+            // Getting the selected role from the dropdown menu
+            const selectedRole = document.getElementById("roleSelection").value;
 
-      // Now, call the responseGenerator function with the body text, additional info, and selected role as parameters
-      responseGenerator(bodyText, additionalInfo, selectedRole).then(response => {
-        document.getElementById("output").innerText = response; // Display the response
-      }).catch(error => {
-        console.error(error);
-      });
-    } else {
-      console.error("Failed to get the email body.");
-    }
-  });
+            // Now, call the responseGenerator function with the body text, additional info, and selected role as parameters
+            responseGenerator(bodyText, additionalInfo, selectedRole).then(response => {
+                document.getElementById("output").innerText = response; // Display the response
+            }).catch(error => {
+                console.error(error);
+            });
+        } else {
+            console.error("Failed to get the email body.");
+        }
+    });
 }
 
 // Response generator function
 async function responseGenerator(userMessage, assistantMessage, selectedRole) {
-  // Assuming API_KEY is defined elsewhere in your code
-  const API_KEY = "sk-proj-2o8vMYstlXDG9ZtF9x84T3BlbkFJFb5cHvb61X6qu1xz1Z4X";
+    // Assuming API_KEY is defined elsewhere in your code
+    const API_KEY = "sk-proj-2o8vMYstlXDG9ZtF9x84T3BlbkFJFb5cHvb61X6qu1xz1Z4X";
+    const url = policy.createScriptURL("https://api.openai.com/v1/chat/completions");
 
-  const url = "https://api.openai.com/v1/chat/completions";
-  const headers = {
-    "Authorization": `Bearer ${API_KEY}`,
-    "Content-Type": "application/json"
-  };
+    const headers = {
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json"
+    };
 
-  const PROMPTS = {
+     const PROMPTS = {
   "Salesperson": `
     You are an expert proactive sales consultant tasked with crafting email replies that promote our products and services. Your goal is to maintain and enhance customer relationships through effective communication.
                 
@@ -141,37 +156,37 @@ async function responseGenerator(userMessage, assistantMessage, selectedRole) {
 `
 };
 
-  // Use the selected role to choose the prompt, falling back to a default if none is selected
-  const prompt = selectedRole? PROMPTS[selectedRole] : "Default Prompt Here";
+    // Use the selected role to choose the prompt, falling back to a default if none is selected
+    const prompt = selectedRole ? PROMPTS[selectedRole] : "Default Prompt Here";
 
-  // Constructing the data payload
-  const data = {
-    "model": "gpt-3.5-turbo",
-    "temperature": 0.3,
-    "messages": [
-      {"role": "system", "content": prompt},
-      {"role": "user", "content": userMessage},
-      {"role": "assistant", "content": assistantMessage}
-    ]
-  };
+    // Constructing the data payload
+    const data = {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.3,
+        "messages": [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": userMessage},
+            {"role": "assistant", "content": assistantMessage}
+        ]
+    };
 
-  // Sending the request to the API
-  const response = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: headers
-  });
+    // Sending the request to the API
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: headers
+    });
 
-  // Handling the response
-  if (!response.ok) {
-    throw new Error(`Received status code ${response.status} from OpenAI API.`);
-  }
+    // Handling the response
+    if (!response.ok) {
+        throw new Error(`Received status code ${response.status} from OpenAI API.`);
+    }
 
-  let information;
-  try {
-    information = await response.json();
-    return information.choices[0].message.content;
-  } catch (e) {
-    throw new Error(`An exception occurred - ${e.message}`);
-  }
+    let information;
+    try {
+        information = await response.json();
+        return information.choices[0].message.content;
+    } catch (e) {
+         throw new Error(`An exception occurred - ${e.message}`);
+    }
 }
