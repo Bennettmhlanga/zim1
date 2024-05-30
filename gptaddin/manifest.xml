@@ -6,11 +6,11 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="EmailAssistant"/>
   <Description DefaultValue="A template to get started."/>
-  <IconUrl DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/assets/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/assets/icon-128.png"/>
-  <SupportUrl DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/help.html"/>
+  <IconUrl DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/help.html"/>
   <AppDomains>
-    <AppDomain>https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin</AppDomain>
+    <AppDomain>https://github.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -23,7 +23,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/taskpane.html"/>
+        <SourceLocation DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/taskpane.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -85,13 +85,13 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://github.com/Bennettmhlanga/zim1/tree/main/gptaddin/taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://raw.githubusercontent.com/Bennettmhlanga/zim1/main/gptaddin/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel" DefaultValue="Contoso Add-in"/>
